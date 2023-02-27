@@ -84,6 +84,7 @@ public class Player : MonoBehaviour
         isWalking = moveDir != Vector3.zero;
         // transform.forward  =  moveDir;
         transform.forward = Vector3.Lerp(transform.forward, moveDir, rotaSpeed *Time.deltaTime);
+        // test git push
     }
 
 
