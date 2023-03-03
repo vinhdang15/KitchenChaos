@@ -38,7 +38,7 @@ public class TestingEvents : MonoBehaviour
     // ----- Part 2 -----
     // Create an event trigger everytime hit "space" and calculate how many time a "space" been hit
     // but separating logic and visuals.
-    // event and trigger in TestingEvent, function to called in TestingEventSubcriber.
+    // event and trigger in TestingEvent (the logic), function to called in TestingEventSubscriber (the visuals).
     // 
 
     public event EventHandler<OnSpacePressEventArgs> OnSpacePress;
