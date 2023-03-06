@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,30 @@ public class Player : MonoBehaviour
     [SerializeField] GameInput gameInput;
     [SerializeField] Vector3   lastPosition;
     [SerializeField] LayerMask counterLayerMask;
+
+    public void Start()
+    {
+        gameInput.OnInteractAction += GameInput_OnInteractAction;
+    }
+    void GameInput_OnInteractAction(object sender, EventArgs e)
+    {
+        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector3 moveDir     = new Vector3(inputVector.x, 0f, inputVector.y);
+        if (moveDir != Vector3.zero)
+        {
+            lastPosition = moveDir;
+        }
+        
+        float interacDistance = 2f;
+        if (Physics.Raycast(transform.position, lastPosition, out RaycastHit raycastHit, interacDistance, counterLayerMask))
+        {
+            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+            {
+                clearCounter.Interact();
+            }
+        }
+    }
+
     private void Update()
     {
         HandleMovement();
@@ -38,10 +63,9 @@ public class Player : MonoBehaviour
         {
             if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
             {
-                clearCounter.Interact();
+                // clearCounter.Interact();
             }
-        } 
-        
+        }
     }
 
     public void HandleMovement()
@@ -84,8 +108,5 @@ public class Player : MonoBehaviour
         isWalking = moveDir != Vector3.zero;
         // transform.forward  =  moveDir;
         transform.forward = Vector3.Lerp(transform.forward, moveDir, rotaSpeed *Time.deltaTime);
-        // test git push
     }
-
-
 }
